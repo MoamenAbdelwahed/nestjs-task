@@ -5,6 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './modules/users/users.module';
 import { UserEntity } from './modules/users/entities/user.entity';
+import { PlantModule } from './modules/plants/plants.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -13,13 +15,15 @@ import { UserEntity } from './modules/users/entities/user.entity';
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.DATABASE_HOST,
+      host: 'db',
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       entities: [UserEntity],
     }),
+    MongooseModule.forRoot(process.env.MONGODB_URI),
     UserModule,
+    PlantModule
   ],
   controllers: [AppController],
   providers: [AppService],
