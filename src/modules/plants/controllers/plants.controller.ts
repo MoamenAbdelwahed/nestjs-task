@@ -1,8 +1,8 @@
-import { Controller, Get, Post, UploadedFile, Res, HttpStatus, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, UploadedFile, Res, HttpStatus, UseInterceptors, Query } from '@nestjs/common';
 import { PlantsService } from '../services/plants.service';
 import { Workbook } from 'exceljs';
 import { FileInterceptor } from '@nestjs/platform-express';
-import multer, { diskStorage } from 'multer';
+import { diskStorage } from 'multer';
 
 @Controller('plants')
 export class PlantsController {
@@ -63,8 +63,12 @@ export class PlantsController {
   }
 
   @Get()
-  async getAllPlants() {
-    return await this.plantsService.getAllPlants();
+  async getAllPlants(@Query('state') targetState?: string) {
+    return await this.plantsService.getAllPlants(targetState);
   }
 
+  @Get('/top')
+  async getTopPlants(@Query('limit') limit?: number) {
+    return await this.plantsService.getTopPlants(limit);
+  }
 }

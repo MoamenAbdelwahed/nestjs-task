@@ -19,7 +19,11 @@ export class PlantsService {
     }
   }
   
-  async getAllPlants(): Promise<Plant[]> {
-    return await this.plantRepository.getAll();
+  async getAllPlants(targetState?: string): Promise<Plant[]> {
+    return await this.plantRepository.getAll(targetState);
+  }
+
+  async getTopPlants(limit?: number): Promise<Plant[]> {
+    return await this.plantRepository.getTopPlantsByOverallNetGeneration(limit);
   }
 }
